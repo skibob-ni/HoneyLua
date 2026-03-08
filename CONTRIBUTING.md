@@ -1,11 +1,11 @@
 # Contributing to HoneyLua
 
-HoneyLua is a private project and is not open to public contributions.
+HoneyLua is a public project, but its roadmap and releases remain curated.
 
 ## Contribution policy
-- Do not fork, mirror, or redistribute the repository contents.
-- Changes should be made only by the owner or explicitly authorized collaborators.
-- Public pull requests are not part of this project's workflow.
+- Keep proposed changes focused and relevant to the script hub.
+- Large rewrites or direction changes may be declined if they do not fit the project.
+- Public pull requests can be reviewed selectively.
 
 ## Internal workflow
 1. Create a focused branch for the change.
@@ -19,7 +19,7 @@ HoneyLua is a private project and is not open to public contributions.
 - Add or update comments and docs when behavior changes.
 
 ## Reporting issues
-Bug reports and feature requests should stay within the private project workflow or direct owner communication.
+Bug reports and feature requests should go through the repository issue workflow.
 
 ## Code review
 Reviews should focus on correctness, maintainability, and release safety.

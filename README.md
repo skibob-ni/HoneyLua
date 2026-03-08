@@ -1,26 +1,20 @@
 # HoneyLua
 
-**HoneyLua** is a **private Roblox scripting toolkit** built for a clean dev experience.
+**HoneyLua** is a **Roblox script hub** designed to be run through a Roblox executor.
 
-- **Readable code** - structured for maintainability and fast iteration
+- **Executor-ready** - built for direct use in Roblox executor workflows
 - **Premium feel** - polished organization, consistent style, and practical utilities
-- **Closed-source** - maintained privately and not distributed as an open-source project
+- **Readable code** - structured for maintainability and fast iteration
 
 ---
 
 ## What you get
 
-- A curated Lua toolkit for Roblox scripting workflows
-- Utilities and helpers designed to be **simple, composable, and maintainable**
+- A Roblox script hub centered around executor-based usage
+- Utilities and scripts designed to be **simple, practical, and maintainable**
 - A codebase that prioritizes **clarity over "magic"**
 
 > This repo is intentionally kept straightforward: if something is hard to understand, it should be improved.
-
----
-
-## Access
-
-HoneyLua is maintained privately. Distribution, reuse, and access are limited to the owner and explicitly authorized collaborators.
 
 ---
 
@@ -29,21 +23,21 @@ HoneyLua is maintained privately. Distribution, reuse, and access are limited to
 Documentation and examples will live here as the toolkit grows.
 
 For now:
-- Use the internal project files directly
+- Load and run the scripts through your Roblox executor setup
 - Keep changes organized and documented
-- Track requested additions privately
+- Track requested additions through the repo workflow
 
 ---
 
 ## Contribution Policy
 
-HoneyLua is not accepting public contributions, forks, or pull requests. Changes should come from the owner or approved collaborators working through the private development workflow.
+HoneyLua is publicly visible, but development direction stays curated. Contributions may be reviewed selectively depending on scope, maintenance cost, and project fit.
 
 ---
 
 ## Licensing
 
-HoneyLua is proprietary software. No license is granted for public use, copying, modification, or redistribution unless explicitly provided in writing by the owner.
+HoneyLua is publicly available, but no open-source license is granted unless explicitly provided in writing by the owner.
 
 ---
 
