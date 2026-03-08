@@ -1,25 +1,25 @@
 # Contributing to HoneyLua
 
-Thanks for taking the time to contribute!
+HoneyLua is a private project and is not open to public contributions.
 
-## Workflow
-1. **Fork** the repository on GitHub.
-2. **Create a branch** from `main` for your change:
-   - `git checkout -b my-change`
-3. **Make your changes** (keep commits small and focused).
-4. **Open a Pull Request** against `main`.
+## Contribution policy
+- Do not fork, mirror, or redistribute the repository contents.
+- Changes should be made only by the owner or explicitly authorized collaborators.
+- Public pull requests are not part of this project's workflow.
+
+## Internal workflow
+1. Create a focused branch for the change.
+2. Keep commits small and readable.
+3. Update docs or comments when behavior changes.
+4. Merge changes through the private review process, if one is being used.
 
 ## Style guide
 - Write **clean, readable Lua**.
-- **No obfuscation**.
 - Prefer clear names, small functions, and consistent formatting.
-- Add/update comments and docs when behavior changes.
+- Add or update comments and docs when behavior changes.
 
 ## Reporting issues
-- For bugs, include:
-  - reproduction steps
-  - expected vs actual behavior
-  - environment details (OS, Lua version, HoneyLua version)
+Bug reports and feature requests should stay within the private project workflow or direct owner communication.
 
 ## Code review
-Be open to feedback. Reviews are meant to improve the code and keep maintenance easy.
+Reviews should focus on correctness, maintainability, and release safety.

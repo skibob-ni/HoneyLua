@@ -1,15 +1,10 @@
-# HoneyLua 🍯
+# HoneyLua
 
-[![License](https://img.shields.io/github/license/ThatSick/HoneyLua?style=for-the-badge)](LICENSE)
-[![Stars](https://img.shields.io/github/stars/ThatSick/HoneyLua?style=for-the-badge)](https://github.com/ThatSick/HoneyLua/stargazers)
-[![Issues](https://img.shields.io/github/issues/ThatSick/HoneyLua?style=for-the-badge)](https://github.com/ThatSick/HoneyLua/issues)
-[![Last Commit](https://img.shields.io/github/last-commit/ThatSick/HoneyLua?style=for-the-badge)](https://github.com/ThatSick/HoneyLua/commits/main)
+**HoneyLua** is a **private Roblox scripting toolkit** built for a clean dev experience.
 
-**HoneyLua** is an **open-source Roblox scripting toolkit** built for a clean dev experience.
-
-- **No obfuscation** — readable code you can audit and extend
-- **Premium feel** — polished structure, consistent style, and practical utilities
-- **Open by default** — contributions welcome
+- **Readable code** - structured for maintainability and fast iteration
+- **Premium feel** - polished organization, consistent style, and practical utilities
+- **Closed-source** - maintained privately and not distributed as an open-source project
 
 ---
 
@@ -23,41 +18,32 @@
 
 ---
 
-## Install
+## Access
 
-Pick what fits your workflow:
-
-### Option A — Clone
-
-```bash
-git clone https://github.com/ThatSick/HoneyLua.git
-```
-
-### Option B — Download ZIP
-
-- Open the repo → **Code** → **Download ZIP**
+HoneyLua is maintained privately. Distribution, reuse, and access are limited to the owner and explicitly authorized collaborators.
 
 ---
 
 ## Usage
 
-Documentation/examples will live here as the toolkit grows.
+Documentation and examples will live here as the toolkit grows.
 
 For now:
-- Browse the source
-- Copy modules you need
-- Open an issue with what you want added
+- Use the internal project files directly
+- Keep changes organized and documented
+- Track requested additions privately
 
 ---
 
-## Contributing
+## Contribution Policy
 
-Contributions are welcome:
+HoneyLua is not accepting public contributions, forks, or pull requests. Changes should come from the owner or approved collaborators working through the private development workflow.
 
-1. Fork the repo
-2. Create a feature branch
-3. Keep changes focused and clean
-4. Open a PR with a clear description
+---
+
+## Licensing
+
+HoneyLua is proprietary software. No license is granted for public use, copying, modification, or redistribution unless explicitly provided in writing by the owner.
 
 ---
 

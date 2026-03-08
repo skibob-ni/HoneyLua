@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea for HoneyLua
+about: Internal feature request for HoneyLua
 title: "[Feature] "
 labels: enhancement
 assignees: ""
@@ -20,3 +20,6 @@ Describe any alternative solutions or features you've considered.
 
 ## Additional context
 Mockups, examples, references, or other relevant information.
+
+## Access note
+This repository is private. Do not share internal code, assets, or project details outside authorized channels.

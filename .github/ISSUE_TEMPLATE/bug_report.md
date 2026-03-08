@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Report a bug to help us improve HoneyLua
+about: Internal bug report for HoneyLua
 title: "[Bug] "
 labels: bug
 assignees: ""
@@ -27,3 +27,6 @@ What did you expect to happen?
 
 ## Additional context
 Logs, screenshots, and any other details that help reproduce the issue.
+
+## Access note
+This repository is private. Do not share internal code, assets, or project details outside authorized channels.
