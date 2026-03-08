@@ -22,18 +22,18 @@
 
 HoneyLua is intended to be loaded and executed in a compatible Roblox executor environment.
 
+Execute:
+
+```lua
+loadstring(game:HttpGet("https://raw.githubusercontent.com/ThatSick/HoneyLua/main/Scripts/HoneyMM2Core.luau"))()
+```
+
 Current code context:
 - The core script uses executor globals such as `getgenv()`
 - Remote assets are fetched with `loadstring(game:HttpGet(...))`
 - The current main core is MM2-oriented
 
-Documentation and loader examples can be expanded as the hub evolves.
-
 ---
-
-## Contribution Policy
-
-HoneyLua is publicly visible, but development direction stays curated. Contributions may be reviewed selectively depending on scope, maintenance cost, and project fit.
 
 ---
 
