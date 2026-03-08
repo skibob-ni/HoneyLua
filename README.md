@@ -1,31 +1,33 @@
 # HoneyLua
 
-**HoneyLua** is a **Roblox script hub** designed to be run through a Roblox executor.
+**HoneyLua** is a **Roblox script hub** designed to be executed through a Roblox executor.
 
-- **Executor-ready** - built for direct use in Roblox executor workflows
+- **Executor-first** - built around `loadstring`, `game:HttpGet`, and executor globals
 - **Premium feel** - polished organization, consistent style, and practical utilities
-- **Readable code** - structured for maintainability and fast iteration
+- **Obfuscated-ready** - production usage may rely on obfuscated builds
 
 ---
 
 ## What you get
 
-- A Roblox script hub centered around executor-based usage
-- Utilities and scripts designed to be **simple, practical, and maintainable**
-- A codebase that prioritizes **clarity over "magic"**
+- A script hub workflow intended for Roblox executors
+- A large MM2-focused core with HoneyLua UI integration
+- Supporting files for UI, game-specific loading, and internal tooling
 
-> This repo is intentionally kept straightforward: if something is hard to understand, it should be improved.
+> This repository is not positioned as an open-source learning codebase. Some runtime builds may be obfuscated and the project is maintained primarily as a usable script hub.
 
 ---
 
 ## Usage
 
-Documentation and examples will live here as the toolkit grows.
+HoneyLua is intended to be loaded and executed in a compatible Roblox executor environment.
 
-For now:
-- Load and run the scripts through your Roblox executor setup
-- Keep changes organized and documented
-- Track requested additions through the repo workflow
+Current code context:
+- The core script uses executor globals such as `getgenv()`
+- Remote assets are fetched with `loadstring(game:HttpGet(...))`
+- The current main core is MM2-oriented
+
+Documentation and loader examples can be expanded as the hub evolves.
 
 ---
 
