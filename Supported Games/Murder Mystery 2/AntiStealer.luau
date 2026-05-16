@@ -104,6 +104,23 @@ local function inspect(connection)
     return info
 end
 
+local function normalizeTrustedSignatures(options)
+    local trusted = {}
+    if type(options) ~= "table" or type(options.trustedSignatures) ~= "table" then
+        return trusted
+    end
+
+    for key, value in pairs(options.trustedSignatures) do
+        if type(key) == "string" and value == true then
+            trusted[key] = true
+        elseif type(value) == "string" and value ~= "" then
+            trusted[value] = true
+        end
+    end
+
+    return trusted
+end
+
 local function scanRemote(remote, baseline)
     local ok, list = pcall(getconnections, remote.OnClientEvent)
     if not ok or type(list) ~= "table" then
@@ -132,7 +149,9 @@ local function scanRemote(remote, baseline)
             result.executorCount += 1
 
             local reason
-            if badHashes[info.hash] then
+            if type(baseline) == "table" and baseline[info.signature] == true then
+                reason = nil
+            elseif badHashes[info.hash] then
                 reason = "known_bad_hash"
             elseif highRisk[tostring(remote.Name)] then
                 local markerA = string.char(76, 117, 114, 97, 112, 104, 32, 83, 99, 114, 105, 112, 116, 58)
@@ -203,7 +222,7 @@ local function scanEnv()
     }
 end
 
-local function runScan()
+local function runScan(options)
     local envScan = scanEnv()
     local ok = type(getconnections) == "function" and type(isexecutorclosure) == "function"
     local skipReason
@@ -218,7 +237,7 @@ local function runScan()
     end
 
     if ok then
-        local baseline = {}
+        local baseline = normalizeTrustedSignatures(options)
 
         for _, path in ipairs(baselinePaths) do
             local remote = game
@@ -302,5 +321,6 @@ local function runScan()
 end
 
 Tamper.RunStartupTradeTamperScan = runScan
+Tamper.RunRuntimeTradeTamperScan = runScan
 
 return Tamper
