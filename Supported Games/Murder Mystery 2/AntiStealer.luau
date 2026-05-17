@@ -61,11 +61,13 @@ local function inspect(connection)
         source = "",
         hash = nil,
         isExecutorClosure = false,
-        constants = {}
+        constants = {},
+        functionRef = nil
     }
 
     local fn
     pcall(function() fn = connection.Function end)
+    info.functionRef = fn
 
     if typeof(fn) == "function" then
         pcall(function() info.line = debug.info(fn, "l") end)
@@ -121,7 +123,60 @@ local function normalizeTrustedSignatures(options)
     return trusted
 end
 
-local function scanRemote(remote, baseline)
+local function normalizeTrustedFunctions(options)
+    local trusted = {}
+    if type(options) ~= "table" or type(options.trustedFunctions) ~= "table" then
+        return trusted
+    end
+
+    for key, value in pairs(options.trustedFunctions) do
+        if typeof(key) == "function" and value == true then
+            trusted[key] = true
+        elseif typeof(value) == "function" then
+            trusted[value] = true
+        end
+    end
+
+    return trusted
+end
+
+local function normalizeTrustedConnections(options)
+    local trusted = {}
+    if type(options) ~= "table" or type(options.trustedConnections) ~= "table" then
+        return trusted
+    end
+
+    for key, value in pairs(options.trustedConnections) do
+        if type(key) == "table" and value == true then
+            trusted[key] = true
+        elseif type(value) == "table" then
+            trusted[value] = true
+        end
+    end
+
+    return trusted
+end
+
+local function constantsContain(values, needle)
+    if type(values) ~= "table" then
+        return false
+    end
+
+    for _, value in ipairs(values) do
+        if tostring(value) == needle then
+            return true
+        end
+    end
+
+    return false
+end
+
+local function isHoneyTradeProtectionConnection(info)
+    return constantsContain(info.constants, "RecordTradeProtectionRemote")
+        and constantsContain(info.constants, "QueueTradeProtectionEvaluation")
+end
+
+local function scanRemote(remote, baseline, trustedFunctions, trustedConnections)
     local ok, list = pcall(getconnections, remote.OnClientEvent)
     if not ok or type(list) ~= "table" then
         return {
@@ -149,7 +204,13 @@ local function scanRemote(remote, baseline)
             result.executorCount += 1
 
             local reason
-            if type(baseline) == "table" and baseline[info.signature] == true then
+            if type(trustedConnections) == "table" and trustedConnections[connection] == true then
+                reason = nil
+            elseif type(trustedFunctions) == "table" and trustedFunctions[info.functionRef] == true then
+                reason = nil
+            elseif type(baseline) == "table" and baseline[info.signature] == true then
+                reason = nil
+            elseif isHoneyTradeProtectionConnection(info) then
                 reason = nil
             elseif badHashes[info.hash] then
                 reason = "known_bad_hash"
@@ -238,6 +299,8 @@ local function runScan(options)
 
     if ok then
         local baseline = normalizeTrustedSignatures(options)
+        local trustedFunctions = normalizeTrustedFunctions(options)
+        local trustedConnections = normalizeTrustedConnections(options)
 
         for _, path in ipairs(baselinePaths) do
             local remote = game
@@ -265,6 +328,10 @@ local function runScan(options)
 
                 if info.isExecutorClosure and info.signature ~= "" then
                     baseline[info.signature] = true
+                    if typeof(info.functionRef) == "function" then
+                        trustedFunctions[info.functionRef] = true
+                    end
+                    trustedConnections[connection] = true
                 end
             end
         end
@@ -276,7 +343,7 @@ local function runScan(options)
                 local remote = trade:FindFirstChild(name)
 
                 if remote and remote:IsA("RemoteEvent") then
-                    local result = scanRemote(remote, baseline)
+                    local result = scanRemote(remote, baseline, trustedFunctions, trustedConnections)
                     results[#results + 1] = result
 
                     if #(result.suspicious or {}) > 0 then
