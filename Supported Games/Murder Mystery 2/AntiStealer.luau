@@ -61,13 +61,11 @@ local function inspect(connection)
         source = "",
         hash = nil,
         isExecutorClosure = false,
-        constants = {},
-        functionRef = nil
+        constants = {}
     }
 
     local fn
     pcall(function() fn = connection.Function end)
-    info.functionRef = fn
 
     if typeof(fn) == "function" then
         pcall(function() info.line = debug.info(fn, "l") end)
@@ -106,77 +104,7 @@ local function inspect(connection)
     return info
 end
 
-local function normalizeTrustedSignatures(options)
-    local trusted = {}
-    if type(options) ~= "table" or type(options.trustedSignatures) ~= "table" then
-        return trusted
-    end
-
-    for key, value in pairs(options.trustedSignatures) do
-        if type(key) == "string" and value == true then
-            trusted[key] = true
-        elseif type(value) == "string" and value ~= "" then
-            trusted[value] = true
-        end
-    end
-
-    return trusted
-end
-
-local function normalizeTrustedFunctions(options)
-    local trusted = {}
-    if type(options) ~= "table" or type(options.trustedFunctions) ~= "table" then
-        return trusted
-    end
-
-    for key, value in pairs(options.trustedFunctions) do
-        if typeof(key) == "function" and value == true then
-            trusted[key] = true
-        elseif typeof(value) == "function" then
-            trusted[value] = true
-        end
-    end
-
-    return trusted
-end
-
-local function normalizeTrustedConnections(options)
-    local trusted = {}
-    if type(options) ~= "table" or type(options.trustedConnections) ~= "table" then
-        return trusted
-    end
-
-    for key, value in pairs(options.trustedConnections) do
-        if type(key) == "table" and value == true then
-            trusted[key] = true
-        elseif type(value) == "table" then
-            trusted[value] = true
-        end
-    end
-
-    return trusted
-end
-
-local function constantsContain(values, needle)
-    if type(values) ~= "table" then
-        return false
-    end
-
-    for _, value in ipairs(values) do
-        if tostring(value) == needle then
-            return true
-        end
-    end
-
-    return false
-end
-
-local function isHoneyTradeProtectionConnection(info)
-    return constantsContain(info.constants, "RecordTradeProtectionRemote")
-        and constantsContain(info.constants, "QueueTradeProtectionEvaluation")
-end
-
-local function scanRemote(remote, baseline, trustedFunctions, trustedConnections)
+local function scanRemote(remote, baseline)
     local ok, list = pcall(getconnections, remote.OnClientEvent)
     if not ok or type(list) ~= "table" then
         return {
@@ -204,15 +132,7 @@ local function scanRemote(remote, baseline, trustedFunctions, trustedConnections
             result.executorCount += 1
 
             local reason
-            if type(trustedConnections) == "table" and trustedConnections[connection] == true then
-                reason = nil
-            elseif type(trustedFunctions) == "table" and trustedFunctions[info.functionRef] == true then
-                reason = nil
-            elseif type(baseline) == "table" and baseline[info.signature] == true then
-                reason = nil
-            elseif isHoneyTradeProtectionConnection(info) then
-                reason = nil
-            elseif badHashes[info.hash] then
+            if badHashes[info.hash] then
                 reason = "known_bad_hash"
             elseif highRisk[tostring(remote.Name)] then
                 local markerA = string.char(76, 117, 114, 97, 112, 104, 32, 83, 99, 114, 105, 112, 116, 58)
@@ -283,7 +203,7 @@ local function scanEnv()
     }
 end
 
-local function runScan(options)
+local function runScan()
     local envScan = scanEnv()
     local ok = type(getconnections) == "function" and type(isexecutorclosure) == "function"
     local skipReason
@@ -298,9 +218,7 @@ local function runScan(options)
     end
 
     if ok then
-        local baseline = normalizeTrustedSignatures(options)
-        local trustedFunctions = normalizeTrustedFunctions(options)
-        local trustedConnections = normalizeTrustedConnections(options)
+        local baseline = {}
 
         for _, path in ipairs(baselinePaths) do
             local remote = game
@@ -328,10 +246,6 @@ local function runScan(options)
 
                 if info.isExecutorClosure and info.signature ~= "" then
                     baseline[info.signature] = true
-                    if typeof(info.functionRef) == "function" then
-                        trustedFunctions[info.functionRef] = true
-                    end
-                    trustedConnections[connection] = true
                 end
             end
         end
@@ -343,7 +257,7 @@ local function runScan(options)
                 local remote = trade:FindFirstChild(name)
 
                 if remote and remote:IsA("RemoteEvent") then
-                    local result = scanRemote(remote, baseline, trustedFunctions, trustedConnections)
+                    local result = scanRemote(remote, baseline)
                     results[#results + 1] = result
 
                     if #(result.suspicious or {}) > 0 then
@@ -388,6 +302,5 @@ local function runScan(options)
 end
 
 Tamper.RunStartupTradeTamperScan = runScan
-Tamper.RunRuntimeTradeTamperScan = runScan
 
 return Tamper
